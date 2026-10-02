@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+coverage.json
+framework.json
+.env
+reports/
+playwright-report/
+test-results/

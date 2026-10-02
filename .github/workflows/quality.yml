@@ -1,0 +1,26 @@
+name: Quality automation
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-and-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -e '.[dev]'
+      - run: pytest --cov=quality_automation --cov-report=json --quality-report reports/quality-report.json
+      - run: |
+          COVERAGE=$(python -c "import json; print(json.load(open('coverage.json'))['totals']['percent_covered'] / 100)")
+          qa-framework gate reports/quality-report.json --minimum-pass-rate 0.98 --maximum-failed-tests 0 --coverage "$COVERAGE" --minimum-coverage 0.80
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-reports
+          path: |
+            reports/
+            coverage.json

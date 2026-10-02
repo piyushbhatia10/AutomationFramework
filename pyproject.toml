@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quality-automation-framework"
+version = "0.1.0"
+description = "A unified UI, API, contract, and data quality automation framework."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema>=4.20",
+  "pytest>=8.0",
+  "requests>=2.31",
+]
+
+[project.optional-dependencies]
+ui = ["playwright>=1.40"]
+snowflake = ["snowflake-connector-python>=3.0"]
+redshift = ["redshift-connector>=2.0"]
+databricks = ["databricks-sql-connector>=3.0"]
+dbt = ["dbt-core>=1.7"]
+ai = ["openai>=1.0"]
+performance = ["locust>=2.0"]
+dev = ["pytest-cov>=5.0", "ruff>=0.4"]
+
+[project.scripts]
+qa-framework = "quality_automation.cli:main"
+
+[project.entry-points.pytest11]
+quality_automation = "quality_automation.pytest_plugin"
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+markers = [
+  "api: service or contract tests",
+  "ui: browser tests",
+  "data: data-quality tests",
+  "performance: load or performance tests",
+  "security: security checks",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

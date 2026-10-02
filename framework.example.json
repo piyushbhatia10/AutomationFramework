@@ -1,0 +1,22 @@
+{
+  "environment": "local",
+  "api": {
+    "base_url": "https://api.example.test",
+    "timeout_seconds": 20
+  },
+  "ui": {
+    "base_url": "https://app.example.test",
+    "browser": "chromium",
+    "headless": true
+  },
+  "data": {
+    "warehouse": "snowflake",
+    "database": "ANALYTICS",
+    "schema": "QA"
+  },
+  "quality_gates": {
+    "minimum_pass_rate": 0.98,
+    "maximum_failed_tests": 0,
+    "minimum_coverage": 0.8
+  }
+}
